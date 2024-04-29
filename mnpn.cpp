@@ -45,6 +45,7 @@ int main(){
     }
     int seg[2][2];
     int trackCount = 0,segCount = 0; //used to track the mnpn values by indexing. if it reaches the size of the boolean array then it means the array is filled.
+     END:
     if(mnpn == 0){
         //any range can be made the segment.
         seg[0][0] = 0;
@@ -52,11 +53,23 @@ int main(){
         seg[1][0] = n/2+1;
         seg[1][1] = n-1;
         segCount = 2;
-        goto skip;
+       
     }
+    
     //the boolean tracker.
     //contains the boolean trackers for all values less than the mnpn as they need to be in every possible found segment
-   
+    else{
+   bool **tracker = new bool*[2];
+    for(int i=0;i<2;i++){ //initialize the bool array
+        tracker[i] = new bool[mnpn];
+    }
+    //making the array false initially.
+    for(int i=0;i<mnpn;i++){
+        tracker[0][i] = false;
+    }
+    for(int i=0;i<mnpn;i++){
+        tracker[1][i] = false;
+    }
     //segment making based on start and end indexes.
     //find first segment that satisfies mnpn segment should contains all values lesser than mnpn.
     int start,end;
@@ -67,7 +80,10 @@ int main(){
             }
         if(arr[i] <= mnpn){
             
-            trackCount++;
+            if(tracker[segCount][arr[i]] == false){
+                tracker[segCount][arr[i]] = true;
+                trackCount++;
+            }
             if(trackCount == mnpn){
             trackCount = 0;
             seg[segCount][0] = start;
@@ -79,14 +95,15 @@ int main(){
         }
         end++;
     }
-    skip:
+}
+
     if(segCount != 2){
         cout<<"-1"<<endl;
     }
     else{
     cout<<"Segments: "<<2<<endl;
     cout<<seg[0][0]+1<<","<<seg[0][1]+1<<endl;
-    cout<<seg[1][0]+1<<","<<seg[1][1]+1;
+    cout<<seg[1][0]+1<<","<<seg[1][1];
     }
     return 0;
 }
