@@ -23,7 +23,7 @@ int MaxPower(vector<vector<int>> &matrix,int rows,int cols){
                 max = matrix[0][i];
             }
         }
-        goto endOfFunction;
+        return max;
     }
 	DP->dp.resize(rows);
 	for(int i=0;i<rows;i++){
@@ -39,7 +39,7 @@ int MaxPower(vector<vector<int>> &matrix,int rows,int cols){
 	 for(int i=0;i<rows;i++){
 		DP->dp[i][0] = matrix[i][0];
 		//second max value now becomes the max value
-		if(DP->dp[DP->maxes[0][1].x][0] <= DP->dp[i][0]){
+		if(DP->dp[DP->maxes[0][1].x][0] <= DP->dp[i][0] || DP->maxes[0][1].x == DP->maxes[0][0].x ){
 			DP->maxes[0][1].x = i;
 			if(DP->dp[DP->maxes[0][1].x][0] >= DP->dp[DP->maxes[0][0].x][0]){
 				//swap the two values.
@@ -100,7 +100,7 @@ int MaxPower(vector<vector<int>> &matrix,int rows,int cols){
 				cout<<"value at: "<<j<<","<<i<<" "<<DP->dp[j][i]<<endl;
 				}
 			}
-			if(DP->dp[DP->maxes[i][1].x][i] <= DP->dp[j][i]){
+			if(DP->dp[DP->maxes[i][1].x][i] <= DP->dp[j][i] || DP->maxes[0][1].x == DP->maxes[0][0].x){
 			      DP->maxes[i][1].x = j;
 			if(DP->dp[DP->maxes[i][1].x][i] >= DP->dp[DP->maxes[i][0].x][i]){
 				//swap the two values.
@@ -121,12 +121,12 @@ int MaxPower(vector<vector<int>> &matrix,int rows,int cols){
 	 }
 	 }
 	 
-	 for(int i=0;i<rows;i++){
-		if(DP->dp[i][cols-1] >= max){
-			max = DP->dp[i][cols-1];
-		}
-	 }
-     endOfFunction:
+	//  for(int i=0;i<rows;i++){
+	// 	if(DP->dp[i][cols-1] >= max){
+	// 		max = DP->dp[i][cols-1];
+	// 	}
+	//  }
+	max = DP->dp[DP->maxes[cols-1][0].x][cols-1];
 	 ///delete[] DP->maxes;
 	 delete DP->maxes;
 	 DP->maxes = nullptr;
@@ -142,7 +142,8 @@ int main() {
 	//vector<vector<int>> matrix = {{1,2,3,4,5,6,6,7,6}};
 	//vector<vector<int>> matrix = {{1,1},{2,2},{35,35},{7,7},{0,0}};
 	//vector<vector<int>> matrix = {{11,5,7,9,5},{7,10,3,6,7}};
-	vector<vector<int>> matrix = {{1,10,35},{10,3,11}};
+	//vector<vector<int>> matrix = {{1,10,35},{10,3,11}};
+	vector<vector<int>> matrix = {{25,41,37},{20,12,9},{1,10,34},{3,15,39},{10,25,42}};
 //    matrix.resize(rows);
 //    for(int i=0;i<rows;i++){
 // 		matrix[i].resize(cols);
